@@ -3,7 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Box, Button, FormHelperText, Grid, Link, responsiveFontSizes, TextField, Typography } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import {useNavigate} from 'react-router-dom';
-import authService from '../../services/authService';
+import {useDispatch} from 'react-redux';
+
+import signIn from '../../actions/accountActions';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -51,6 +53,7 @@ function SignIn(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState();
+    const dispatch = useDispatch();
 
     async function handleSignIn(){
         /*chamada a API
@@ -58,8 +61,7 @@ function SignIn(){
         senao exibe mensagem para o usuario*/
 
         try{
-            await authService.signIn(email, password);
-              //  'felipericardoevaristo@gmail.com', 'admin'
+            await dispatch(signIn(email, password));
             /*se 200 entao vai para home*/
             navigate('/');    
         }catch(error){
